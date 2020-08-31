@@ -2,7 +2,10 @@ import React from 'react';
 
 const Cart = (props) => {
   const cart = props.cart;
-  const total = cart.reduce((total, prd) => total + prd.price, 0);
+  const total = cart.reduce(
+    (total, prd) => total + prd.price * prd.quantity,
+    0
+  );
 
   let formatNumber = (num) => {
     const precision = num.toFixed(2);
@@ -19,7 +22,7 @@ const Cart = (props) => {
   }
 
   let tax = (total / 10).toFixed(2);
-  const grandTotal = formatNumber(total) + shipping + Number(tax);
+  const grandTotal = formatNumber(total + shipping + Number(tax));
 
   return (
     <div>
@@ -33,6 +36,8 @@ const Cart = (props) => {
         <small>Tax: {tax}</small>
       </p>
       <p>Total Price: {grandTotal}</p>
+      <hr />
+      {props.children}
     </div>
   );
 };
