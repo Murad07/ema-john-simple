@@ -20,6 +20,7 @@ export const handleGoogleSignIn = () => {
         name: displayName,
         email: email,
         photo: photoURL,
+        success: true,
       };
       return signedInUser;
     })
@@ -38,6 +39,7 @@ export const handleFBLogin = () => {
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
+      user.success = true;
       return user;
       // ...
     })
@@ -73,58 +75,55 @@ export const handleSignOut = () => {
     });
 };
 
-// export const createUserWithEmailAndPassword = () => {
-//   firebase
-//     .auth()
-//     .createUserWithEmailAndPassword(user.email, user.password)
-//     .then((res) => {
-//       const newUserInfo = { ...user };
-//       newUserInfo.error = '';
-//       newUserInfo.success = true;
-//       setUser(newUserInfo);
-//       updateUserName(user.name);
-//     })
-//     .catch((error) => {
-//       // Handle Errors here.
-//       const newUserInfo = { ...user };
-//       newUserInfo.error = error.message;
-//       newUserInfo.success = false;
-//       setUser(newUserInfo);
-//     });
-// };
+export const createUserWithEmailAndPassword = (name, email, password) => {
+  return firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((res) => {
+      const newUserInfo = res.user;
+      newUserInfo.error = '';
+      newUserInfo.success = true;
+      updateUserName(name);
+      return newUserInfo;
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const newUserInfo = {};
+      newUserInfo.error = error.message;
+      newUserInfo.success = false;
+      return newUserInfo;
+    });
+};
 
-// export const signInWithEmailAndPassword = () => {
-//   firebase
-//     .auth()
-//     .signInWithEmailAndPassword(user.email, user.password)
-//     .then((res) => {
-//       const newUserInfo = { ...user };
-//       newUserInfo.error = '';
-//       newUserInfo.success = true;
-//       setUser(newUserInfo);
-//       setLoggedInUser(newUserInfo);
-//       history.replace(from);
-//       console.log('Sing In User name', res.user);
-//     })
-//     .catch(function (error) {
-//       const newUserInfo = { ...user };
-//       newUserInfo.error = error.message;
-//       newUserInfo.success = false;
-//       setUser(newUserInfo);
-//     });
-// };
+export const signInWithEmailAndPassword = (email, password) => {
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((res) => {
+      const newUserInfo = res.user;
+      newUserInfo.error = '';
+      newUserInfo.success = true;
+      return newUserInfo;
+    })
+    .catch(function (error) {
+      const newUserInfo = {};
+      newUserInfo.error = error.message;
+      newUserInfo.success = false;
+      return newUserInfo;
+    });
+};
 
-// const updateUserName = (name) => {
-//   const user = firebase.auth().currentUser;
+const updateUserName = (name) => {
+  const user = firebase.auth().currentUser;
 
-//   user
-//     .updateProfile({
-//       displayName: name,
-//     })
-//     .then(function () {
-//       console.log('User name Updated Successfuly');
-//     })
-//     .catch(function (error) {
-//       // An error happened.
-//     });
-// };
+  user
+    .updateProfile({
+      displayName: name,
+    })
+    .then(function () {
+      console.log('User name Updated Successfuly');
+    })
+    .catch(function (error) {
+      // An error happened.
+    });
+};
