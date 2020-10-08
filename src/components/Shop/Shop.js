@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import fakeDate from '../../fakeData';
+//import fakeDate from '../../fakeData';
 import './Shop.css';
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
@@ -8,25 +8,44 @@ import {
   getDatabaseCart,
 } from '../../utilities/databaseManager';
 import { useEffect } from 'react';
-import fakeData from './../../fakeData/index';
 import { Link } from 'react-router-dom';
 
 const Shop = () => {
-  const first10 = fakeDate.slice(0, 10);
-  const [products, setProducts] = useState(first10);
+  document.title = 'Shop More';
+  // const first10 = fakeDate.slice(0, 10);
+  //const [products, setProducts] = useState(first10);
+
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState('');
+
+  // useEffect(() => {
+  //   fetch('https://aqueous-mesa-21105.herokuapp.com/products')
+  //     .then((res) => res.json())
+  //     .then((date) => setProducts(date));
+  // }, []);
+
+  useEffect(() => {
+    fetch('https://aqueous-mesa-21105.herokuapp.com/products?search=' + search)
+      // fetch('http://localhost:5000/products?search=' + search)
+      .then((res) => res.json())
+      .then((date) => setProducts(date));
+  }, [search]);
 
   useEffect(() => {
     const savedCart = getDatabaseCart();
-    console.log(savedCart);
     const productKeys = Object.keys(savedCart);
-    const previousCart = productKeys.map((existingKey) => {
-      const product = fakeData.find((pd) => pd.key === existingKey);
-      product.quantity = savedCart[existingKey];
-      return product;
-    });
-    setCart(previousCart);
-  }, []);
+
+    fetch('https://aqueous-mesa-21105.herokuapp.com/productsByKeys', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productKeys),
+    })
+      .then((res) => res.json())
+      .then((data) => setCart(data));
+  }, [products]);
 
   const handleAddProduct = (product) => {
     const toBeAddedKey = product.key;
@@ -48,9 +67,15 @@ const Shop = () => {
     addToDatabaseCart(product.key, count);
   };
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
   return (
     <div className='twin-container'>
       <div className='product-container'>
+        <input type='text' onBlur={handleSearch} placeholder='Search...' />
+        {products.length === 0 && <p>Loading...</p>}
         {products.map((product) => (
           <Product
             key={product.key}
