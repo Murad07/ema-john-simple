@@ -2,10 +2,13 @@ Live site: https://ema-jhon-m.web.app/shop
 # Ema-Jhon Ecommerce
 
 ### Features:
-- Load daynamically products from database.
+- Load dynamically products from the database.
+- Randomly arrange products every time.
 - Customer Login System.
-- Add product to cart, order summery and review option.
-- Procede order and Inventory option.
+- Add product to cart.
+- Show customer order summary and calculate the total cost.
+- Customer can review orders, remove any order.
+- Proceed order and Inventory option.
 
 ### Frontend: 
 - HTML, CSS, Bootstrap, React Js, React Spring, React Router, JWT token, firebase.
@@ -13,6 +16,12 @@ Live site: https://ema-jhon-m.web.app/shop
 ### Backend: 
 - Node Js, Express Js.
 - Database: MongoDB.
+
+### Tools:
+- Vs Code, React Developer tool, Heroku, Adobe Photoshop.
+
+### My Resume:
+https://drive.google.com/file/d/1W6qKPLEH2_wgVAi7cIFDV2ZrOXNLSKh-/view?usp=sharing
 
 
 ## Available Scripts
