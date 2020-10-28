@@ -1,4 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live site: https://ema-jhon-m.web.app/shop
+# Ema-Jhon Ecommerce
+
+### Features:
+- Load daynamically products from database.
+- Customer Login System.
+- Add product to cart, order summery and review option.
+- Procede order and Inventory option.
+
+### Frontend: 
+- HTML, CSS, Bootstrap, React Js, React Spring, React Router, JWT token, firebase.
+
+### Backend: 
+- Node Js, Express Js.
+- Database: MongoDB.
+
 
 ## Available Scripts
 
